@@ -48,7 +48,7 @@ val openrndrVersion = if (openrndrUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.39"
 val panelUseSnapshot = false
 val panelVersion = if (panelUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.21"
 
-val orxUseSnapshot = false
+val orxUseSnapshot = true
 val orxVersion = if (orxUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.47"
 
 //<editor-fold desc="This is code for OPENRNDR, no need to edit this .. most of the times">
