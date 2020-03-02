@@ -36,7 +36,7 @@ fun main() = application {
                 newLine()
 
                 // -- the !! here is the result of an oversight in OPENRNDR
-                drawer!!.fontMap = smallFont
+                drawer.fontMap = smallFont
                 text("We don't have to be so loud all the time.")
                 newLine()
                 text("O- the sweet whispers.")

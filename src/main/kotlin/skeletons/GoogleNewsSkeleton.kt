@@ -28,10 +28,10 @@ fun main() = application {
     program {
 
         // -- per country
-        val archive = googleNewsSequence(GoogleNewsEndPoint.TopHeadlines, country = "it").iterator()
+        //val archive = googleNewsSequence(GoogleNewsEndPoint.TopHeadlines, country = "it").iterator()
 
         // -- per query
-        //val archive = googleNewsSequence(GoogleNewsEndPoint.Everything, query = "coronavirus").iterator()
+        val archive = googleNewsSequence(GoogleNewsEndPoint.Everything, query = "corona").iterator()
         var article = archive.next().load()
         val gui = GUI()
 

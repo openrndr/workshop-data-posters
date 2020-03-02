@@ -33,8 +33,8 @@ fun main() = application {
                 dynamicText("we can highlight any word that we want, we do this by placing them in a" +
                         " special list of words") {
                     if (it in specialWords) {
-                        drawer!!.fontMap = highlight
-                        drawer!!.fill = ColorRGBa.PINK
+                        drawer.fontMap = highlight
+                        drawer.fill = ColorRGBa.PINK
                     }
                 }
             }

@@ -1,7 +1,5 @@
 package skeletons
 
-import archives.GoogleNewsEndPoint
-import archives.googleNewsSequence
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.openrndr.application
@@ -11,6 +9,7 @@ import org.openrndr.extra.compositor.compose
 import org.openrndr.extra.compositor.draw
 import org.openrndr.extra.compositor.layer
 import org.openrndr.extra.compositor.post
+import org.openrndr.extra.fx.color.LumaMap
 import org.openrndr.extra.fx.shadow.DropShadow
 import org.openrndr.extra.gui.GUI
 import org.openrndr.extra.gui.addTo
@@ -29,7 +28,7 @@ fun main() = application {
     program {
 
         // -- per country
-        val archive = duckDuckGoSequence("Italian food").iterator()
+        val archive = duckDuckGoSequence("Goofy Pluto").iterator()
 
         // -- per query
         //val archive = googleNewsSequence(GoogleNewsEndPoint.Everything, query = "coronavirus").iterator()
@@ -59,6 +58,7 @@ fun main() = application {
                         drawer.imageFit(article.images[0], 0.0, 0.0, width * 1.0, height * 1.0)
                     }
                 }
+                post(LumaMap()).addTo(gui)
             }
 
             // -- text layer

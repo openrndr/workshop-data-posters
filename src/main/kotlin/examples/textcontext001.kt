@@ -30,8 +30,8 @@ fun main() = application {
                 newLine()
                 dynamicText("we can highlight the word the if we want") {
                     if (it == "the") {
-                        drawer!!.fontMap = highlight
-                        drawer!!.fill = ColorRGBa.PINK
+                        drawer.fontMap = highlight
+                        drawer.fill = ColorRGBa.PINK
                     }
                 }
             }

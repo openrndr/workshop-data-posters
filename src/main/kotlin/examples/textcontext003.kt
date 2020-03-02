@@ -35,9 +35,9 @@ fun main() = application {
                 dynamicText("we can highlight any word that we want, we do this by placing them in a" +
                         " special list of words") {
                     if (it in specialWords) {
-                        drawer!!.fontMap = highlight
-                        drawer!!.fill = ColorRGBa.PINK
-                        drawer!!.translate(0.0, sin(seconds)*3.0)
+                        drawer.fontMap = highlight
+                        drawer.fill = ColorRGBa.PINK
+                        drawer.translate(0.0, sin(seconds)*3.0)
                     } else if (it in otherWords) {
                         tracking = cos(seconds) * 10.0 + 10.0
                     }
