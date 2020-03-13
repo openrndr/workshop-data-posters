@@ -43,7 +43,7 @@ val openrndrFeatures = setOf(
 
 /*  Which version of OPENRNDR, ORX and Panel should be used? */
 val openrndrUseSnapshot = false
-val openrndrVersion = if (openrndrUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.40-rc.2"
+val openrndrVersion = if (openrndrUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.40-rc.4"
 
 val panelUseSnapshot = false
 val panelVersion = if (panelUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.21"
@@ -118,7 +118,7 @@ dependencies {
     /*  This is where you add additional (third-party) dependencies */
 
 //    implementation("org.jsoup:jsoup:1.12.2")
-//    implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.google.code.gson:gson:2.8.6")
 
     //<editor-fold desc="Managed dependencies">
     runtimeOnly(openrndr("gl3"))

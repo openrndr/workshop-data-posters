@@ -7,7 +7,7 @@ import org.openrndr.text.Writer
 
 fun Writer.dynamicText(text: String, parser: (String) -> Unit) {
 
-    val currentFont = drawer!!.fontMap as FontImageMap
+    val currentFont = drawerRef!!.fontMap as FontImageMap
 
     val tokens = text.split(" ")
 
@@ -17,7 +17,7 @@ fun Writer.dynamicText(text: String, parser: (String) -> Unit) {
         copyStyle.ellipsis = style.ellipsis
         copyStyle.leading = style.leading
         copyStyle.tracking = style.tracking
-        drawer!!.isolated {
+        drawerRef!!.isolated {
             parser(token)
             this@dynamicText.text(token)
         }
@@ -25,6 +25,6 @@ fun Writer.dynamicText(text: String, parser: (String) -> Unit) {
         if (index != tokens.size - 1) {
             text(" ")
         }
-        drawer!!.fontMap = currentFont
+        drawerRef!!.fontMap = currentFont
     }
 }
