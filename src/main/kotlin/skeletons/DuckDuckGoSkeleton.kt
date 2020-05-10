@@ -1,10 +1,12 @@
 package skeletons
 
+import archives.LoadedArticle
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.openrndr.application
 import org.openrndr.draw.loadFont
 import org.openrndr.duckko.duckDuckGoSequence
+import org.openrndr.events.Event
 import org.openrndr.extra.compositor.compose
 import org.openrndr.extra.compositor.draw
 import org.openrndr.extra.compositor.layer
@@ -35,6 +37,7 @@ fun main() = application {
         var article = archive.next().load()
         val gui = GUI()
 
+        val onNextArticle = Event<LoadedArticle>()
         val settings = @Description("Settings") object {
             @ActionParameter("Next article")
             fun nextArticle() {
@@ -43,9 +46,10 @@ fun main() = application {
                 }
 
                 launch {
-                    var newArticle = next.await().load()
+                    val newArticle = next.await().load()
                     article.destroy()
                     article = newArticle
+                    onNextArticle.trigger(newArticle)
                 }
             }
         }

@@ -32,7 +32,8 @@ val orxFeatures = setOf(
 //    "orx-osc"
 //    "orx-palette"
 //    "orx-runway"
-    "orx-shade-styles"
+    "orx-shade-styles",
+    "orx-panel"
 )
 
 /* Which OPENRNDR libraries should be added to this project? */
@@ -43,13 +44,11 @@ val openrndrFeatures = setOf(
 
 /*  Which version of OPENRNDR, ORX and Panel should be used? */
 val openrndrUseSnapshot = false
-val openrndrVersion = if (openrndrUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.40-rc.4"
+val openrndrVersion = if (openrndrUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.42-rc.7"
 
-val panelUseSnapshot = false
-val panelVersion = if (panelUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.21"
 
 val orxUseSnapshot = false
-val orxVersion = if (orxUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.49"
+val orxVersion = if (orxUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.51-rc.5"
 
 //<editor-fold desc="This is code for OPENRNDR, no need to edit this .. most of the times">
 val supportedPlatforms = setOf("windows", "macos", "linux-x64", "linux-arm64")
@@ -82,16 +81,16 @@ enum class Logging {
 /*  What type of logging should this project use? */
 val applicationLogging = Logging.SIMPLE
 
-val kotlinVersion = "1.3.61"
+val kotlinVersion = "1.3.72"
 
 plugins {
     java
-    kotlin("jvm") version("1.3.61")
+    kotlin("jvm") version("1.3.72")
 }
 
 repositories {
     mavenCentral()
-    if (openrndrUseSnapshot || orxUseSnapshot || panelUseSnapshot) {
+    if (openrndrUseSnapshot || orxUseSnapshot) {
         mavenLocal()
     }
     maven(url = "https://dl.bintray.com/openrndr/openrndr")
@@ -131,7 +130,7 @@ dependencies {
     implementation(openrndr("extensions"))
     implementation(openrndr("filter"))
 
-    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core","1.3.3")
+    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core","1.3.6")
     implementation("io.github.microutils", "kotlin-logging","1.7.8")
 
     when(applicationLogging) {
@@ -153,9 +152,6 @@ dependencies {
         runtimeOnly(openrndrNatives("ffmpeg"))
     }
 
-    if ("panel" in openrndrFeatures) {
-        implementation("org.openrndr.panel:openrndr-panel:$panelVersion")
-    }
 
     for (feature in orxFeatures) {
         implementation(orx(feature))

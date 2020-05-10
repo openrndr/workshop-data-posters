@@ -1,8 +1,13 @@
 package skeletons
 
+import archives.LoadedArticle
 import archives.localArchive
 import org.openrndr.application
+import org.openrndr.color.ColorRGBa
+import org.openrndr.color.rgb
+import org.openrndr.color.rgba
 import org.openrndr.draw.loadFont
+import org.openrndr.events.Event
 import org.openrndr.extra.compositor.compose
 import org.openrndr.extra.compositor.layer
 import org.openrndr.extra.compositor.draw
@@ -16,7 +21,7 @@ import org.openrndr.extras.imageFit.imageFit
 import org.openrndr.shape.Rectangle
 import org.openrndr.text.writer
 
-fun main() = application{
+fun main() = application {
     configure {
         width = 600
         height = 800
@@ -26,14 +31,22 @@ fun main() = application{
         var article = archive.next()
         val gui = GUI()
 
+        val onNextArticle = Event<LoadedArticle>()
         val settings = @Description("Settings") object {
             @ActionParameter("Next article")
             fun nextArticle() {
                 article = archive.next()
+                onNextArticle.trigger(article)
             }
         }
 
         val composite = compose {
+            var background = ColorRGBa.PINK
+            onNextArticle.listen {
+                background = rgb(Math.random(), Math.random(), Math.random())
+            }
+
+
             // -- image layer
             layer {
                 draw {
@@ -45,7 +58,7 @@ fun main() = application{
 
             // -- text layer
             layer {
-                val font = loadFont("data/fonts/IBMPlexMono-Bold.ttf",32.0)
+                val font = loadFont("data/fonts/IBMPlexMono-Bold.ttf", 32.0)
                 draw {
                     if (article.texts.isNotEmpty()) {
                         drawer.fontMap = font
