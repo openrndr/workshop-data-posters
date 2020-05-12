@@ -81,6 +81,8 @@ fun main() = application {
                 post(DropShadow()).addTo(gui, "2. Drop shadow")
             }
         }
+        onNextArticle.trigger(article)
+
 
         gui.add(settings)
         extend(gui)

@@ -44,7 +44,7 @@ val openrndrFeatures = setOf(
 
 /*  Which version of OPENRNDR, ORX and Panel should be used? */
 val openrndrUseSnapshot = false
-val openrndrVersion = if (openrndrUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.42-rc.7"
+val openrndrVersion = if (openrndrUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.42-rc.8"
 
 
 val orxUseSnapshot = false
@@ -89,11 +89,14 @@ plugins {
 }
 
 repositories {
+
     mavenCentral()
     if (openrndrUseSnapshot || orxUseSnapshot) {
         mavenLocal()
     }
     maven(url = "https://dl.bintray.com/openrndr/openrndr")
+//    maven(url = "https://jitpack.io")
+    mavenLocal()
 }
 
 fun DependencyHandler.orx(module: String): Any {
@@ -116,7 +119,7 @@ dependencies {
 
     /*  This is where you add additional (third-party) dependencies */
 
-//    implementation("org.jsoup:jsoup:1.12.2")
+    implementation("org.jsoup:jsoup:1.13.1")
     implementation("com.google.code.gson:gson:2.8.6")
 
     //<editor-fold desc="Managed dependencies">
@@ -130,8 +133,21 @@ dependencies {
     implementation(openrndr("extensions"))
     implementation(openrndr("filter"))
 
+    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-reactive","1.3.6")
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core","1.3.6")
     implementation("io.github.microutils", "kotlin-logging","1.7.8")
+
+
+    implementation("com.fasterxml.jackson.core", "jackson-databind", "2.10.3")
+//    implementation("ru.sokomishalov.skraper", "skrapers", "0.3.1")
+    implementation(fileTree("jars") {
+        include("*.jar")
+    })
+
+
+    implementation("io.projectreactor.netty:reactor-netty:0.9.7.RELEASE")
+
+
 
     when(applicationLogging) {
         Logging.NONE -> {
