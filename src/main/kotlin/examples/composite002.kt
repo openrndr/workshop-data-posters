@@ -8,7 +8,7 @@ import org.openrndr.extra.compositor.compose
 import org.openrndr.extra.compositor.draw
 import org.openrndr.extra.compositor.layer
 import org.openrndr.extra.fx.blend.Multiply
-import org.openrndr.text.writer
+import org.openrndr.writer
 
 fun main() = application {
     program {

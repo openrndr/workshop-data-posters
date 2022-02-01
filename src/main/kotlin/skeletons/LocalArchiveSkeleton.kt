@@ -19,7 +19,7 @@ import org.openrndr.extra.parameters.ActionParameter
 import org.openrndr.extra.parameters.Description
 import org.openrndr.extras.imageFit.imageFit
 import org.openrndr.shape.Rectangle
-import org.openrndr.text.writer
+import org.openrndr.writer
 
 fun main() = application {
     configure {

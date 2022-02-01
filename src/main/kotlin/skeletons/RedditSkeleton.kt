@@ -4,6 +4,8 @@ import archives.LoadedArticle
 import archives.skraperSequence
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.openrndr.application
 import org.openrndr.draw.loadFont
@@ -21,9 +23,9 @@ import org.openrndr.extra.parameters.Description
 import org.openrndr.extras.imageFit.imageFit
 import org.openrndr.launch
 import org.openrndr.shape.Rectangle
-import org.openrndr.text.writer
+import org.openrndr.writer
+import ru.sokomishalov.skraper.client.okhttp.OkHttpSkraperClient
 
-import ru.sokomishalov.skraper.client.reactornetty.ReactorNettySkraperClient
 import ru.sokomishalov.skraper.provider.reddit.RedditSkraper
 import ru.sokomishalov.skraper.provider.reddit.getCommunityNewPosts
 
@@ -33,13 +35,15 @@ fun main() = application {
         height = 800
     }
     program {
-        val reddit = RedditSkraper(client = ReactorNettySkraperClient())
+        val reddit = RedditSkraper(client = OkHttpSkraperClient())
         val posts = runBlocking {
             reddit.getCommunityNewPosts("r/pics")
         }
 
         val onNextArticle = Event<LoadedArticle>()
-        val archive = skraperSequence(posts).iterator()
+        val list = posts.take(10).toList()
+
+        val archive = skraperSequence(list).iterator()
         var article = archive.next().load()
 
         val gui = GUI()
@@ -74,6 +78,7 @@ fun main() = application {
             // -- text layer
             layer {
                 val font = loadFont("data/fonts/IBMPlexMono-Bold.ttf", 32.0)
+
                 draw {
                     drawer.fontMap = font
                     writer {
@@ -85,6 +90,7 @@ fun main() = application {
                 post(DropShadow()).addTo(gui, "2. Drop shadow")
             }
         }
+
         onNextArticle.trigger(article)
 
         gui.add(settings)

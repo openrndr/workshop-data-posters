@@ -3,8 +3,6 @@ package examples
 import org.openrndr.animatable.Animatable
 import org.openrndr.animatable.easing.Easing
 import org.openrndr.application
-import org.openrndr.draw.loadFont
-import org.openrndr.text.writer
 
 /**
  * This demonstrates a looping animation
@@ -25,11 +23,13 @@ fun main() = application {
         extend {
             animatable.updateAnimation()
             if (!animatable.hasAnimations()) {
-                animatable.animate("x", 400.0, 1000, Easing.CubicInOut)
-                animatable.animate("y", 300.0, 1000, Easing.CubicInOut)
-                animatable.complete()
-                animatable.animate("x", 0.0, 1000, Easing.CubicInOut)
-                animatable.animate("y", 0.0, 1000, Easing.CubicInOut)
+                animatable.apply {
+                    ::x.animate(400.0, 1000, Easing.CubicInOut)
+                    ::y.animate(300.0, 1000, Easing.CubicInOut)
+                    ::y.complete()
+                    ::x.animate(0.0, 1000, Easing.CubicInOut)
+                    ::y.animate(0.0, 1000, Easing.CubicInOut)
+                }
             }
             drawer.circle(animatable.x, animatable.y, 100.0)
         }

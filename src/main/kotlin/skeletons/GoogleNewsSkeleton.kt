@@ -20,7 +20,7 @@ import org.openrndr.extra.parameters.Description
 import org.openrndr.extras.imageFit.imageFit
 import org.openrndr.launch
 import org.openrndr.shape.Rectangle
-import org.openrndr.text.writer
+import org.openrndr.writer
 
 /*
     Before you can use this you have to request an API key from  https://newsapi.org/s/google-news-api

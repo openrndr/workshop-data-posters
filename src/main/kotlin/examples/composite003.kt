@@ -6,7 +6,8 @@ import org.openrndr.draw.loadFont
 import org.openrndr.extra.compositor.*
 import org.openrndr.extra.fx.blend.Multiply
 import org.openrndr.extra.fx.blur.ApproximateGaussianBlur
-import org.openrndr.text.writer
+import org.openrndr.writer
+
 
 fun main() = application {
     program {

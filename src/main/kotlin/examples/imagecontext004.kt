@@ -1,14 +1,8 @@
 package examples
 
 import org.openrndr.application
-import org.openrndr.color.ColorRGBa
-import org.openrndr.draw.loadFont
 import org.openrndr.draw.loadImage
 import org.openrndr.extras.imageFit.imageFit
-import org.openrndr.shape.Rectangle
-import org.openrndr.text.Cursor
-import org.openrndr.text.writer
-import tools.dynamicText
 import tools.statistics
 
 /* Visualize the average color of an image, which is often gray-ish */

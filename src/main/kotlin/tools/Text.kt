@@ -1,9 +1,9 @@
 package tools
 
 import org.openrndr.draw.FontImageMap
+import org.openrndr.draw.WriteStyle
+import org.openrndr.draw.Writer
 import org.openrndr.draw.isolated
-import org.openrndr.text.WriteStyle
-import org.openrndr.text.Writer
 
 fun Writer.dynamicText(text: String, parser: (String) -> Unit) {
 

@@ -67,8 +67,8 @@ fun main() = application {
                     @ActionParameter("animate!")
                     fun animate() {
                         cancel()
-                        animate("x", Math.random() * 640.0, 1000)
-                        animate("y", Math.random() * 480.0, 1000)
+                        ::x.animate(Math.random() * 640.0, 1000)
+                        ::y.animate(Math.random() * 480.0, 1000)
                     }
                 }
                 gui.add(layerSettings)
