@@ -1,25 +1,76 @@
-# OPENRNDR template project
+# workshop-data-posters
 
-A feature rich template for creating OPENRNDR programs based on Gradle/Kts
+## Using this project
 
-The template consists of a configuration for Gradle and an example OPENRNDR program. The Gradle configuration should serve as the
-go-to starting point for writing OPENRNDR-based software.
+In [`src/main/kotlin`](src/main/kotlin) you will find all source code used by this framework. This source code is organized in folders.
 
-If you are looking at this from IntelliJ IDEA you can start by expanding the _project_ tab on the left. You will find a template program in `src/main/kotlin/TemplateProgram.kt`
+ * `archives` Framework code that is used to handle archives. You are not expected to write your own archive code.
+ * `examples` Example code that demonstrates how to use OPENRNDR and this project.
+ * `skeletons` Skeleton code, these could work as a starting point for your own poster generator.
+ * `tools` Image and text tools provided by this framework
 
-You will find some [basic instructions](https://guide.openrndr.org/#/02_Getting_Started_with_OPENRNDR/C00_SetupYourFirstProgram) in the [OPENRNDR guide](https://guide.openrndr.org)
+## Archives and Skeletons
 
-## Gradle tasks
- - `run` runs the TemplateProgram
- - `jar` creates an executable platform specific jar file with all dependencies
- - `zipDistribution` creates a zip file containing the application jar and the data folder
- - `jpackageZip` creates a zip with a stand-alone executable for the current platform (works with Java 14 only)
+An archive is a collection of texts and accompanying images. This framework provides a number of ways to work with 
+archives.
 
-## Cross builds
-To create runnable jars for a platform different from the platform you use to build one uses `./gradlew jar --PtargetPlatform=<platform>`. The supported platforms are `windows`, `macos`, `linux-x64` and `linux-arm64`. Note that the `linux-arm64` platform will only work with OPENRNDR snapshot builds from master and OPENRNDR 0.3.39 (a future version).
+### Local Archive
 
-## Github Actions
+Local archive is an archive that lives on your local filesystem. An example archive is provided in the 
+`archives/example-poetry` folder. When opening that folder you will see three sub-folders (`001`, `002` and `003`). 
+Each sub-folder contains text and image media. You can have multiple images and multiple .txt files.
 
-This repository contains a number of Github Actions in `./github/workflows`. 
-The actions enable a basic build run on commit, plus publication actions that are executed when
-a commit is tagged with a version number like `v0.*` or `v1.*`.
+To try a local archive run the [`LocalArchiveSkeleton`](src/main/kotlin/skeletons/LocalArchiveSkeleton.kt) program.
+
+To create a new archive create a folder under `archives`, for example `archives/my-archive`. Copy the file `src/main/kotlin/skeletons/LocalArchiveSkeleton.kt`
+to `src/main/kotlin/work/Skeleton01.kt`. 
+
+In `Skeleton01.kt` change the following code from:
+```kotlin
+val archive = localArchive("archives/example-poetry").iterator()
+```
+
+into: 
+```kotlin
+val archive = localArchive("archives/my-archive").iterator()
+```
+
+### Reddit Archive
+
+A Reddit archive is a dynamic archive for which text and images are retrieved from the Reddit website. 
+
+To try a Reddit based archive run the [`RedditSkeleton.kt`](src/main/kotlin/skeletons/RedditSkeleton.kt) program.
+
+To change the Reddit one can edit the `"r/pics"` part below: 
+
+```kotlin
+val posts = runBlocking {
+    reddit.getCommunityNewPosts("r/pics")
+}
+```
+
+### DuckDuckGo Archive
+
+A DuckDuckGo based archive uses DuckDuckGo's image to retrieve text and images from an image search. 
+
+To try a DuckDuckGo based archive run the `src/main/kotlin/skeletons/DuckDuckGoSkeleton.kt` program.
+
+The search query can be changed here:
+```kotlin
+val archive = duckDuckGoSequence("Goofy Pluto").iterator()
+```
+
+## Examples
+
+In `src/main/kotlin/examples` you will find two folders; `openrndr` and `framework`. The `openrndr` folder contains 
+small examples that demonstrate OPENRNDR features. The `framework` folder contains examples that demonstrates examples
+inside a program that is derived from `LocalArchiveSkeleton.kt`. It is recommended to study the `framework` examples as 
+they contain valuable hints for building poster generators.
+
+### `framework` examples
+  * [Animation001](src/main/kotlin/examples/framework/Animation001.kt) - animating a circle whenever a new article is loaded
+  * [Animation002](src/main/kotlin/examples/framework/Animation002.kt) - fading in images and text whenever a new article is loaded
+  * [Animation003](src/main/kotlin/examples/framework/Animation003.kt) - animating post filter settings
+  * [Mask001](src/main/kotlin/examples/framework/Mask001.kt) - Masking an image layer with text
+  * [Mask002](src/main/kotlin/examples/framework/Mask002.kt) -  Masking an image layer with text, combining blurred and sharp images
+

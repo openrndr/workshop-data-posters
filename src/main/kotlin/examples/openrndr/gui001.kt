@@ -26,9 +26,7 @@ fun main() = application {
         gui.add(settings)
         extend(gui)
         extend {
-
             drawer.circle(settings.x, settings.y, settings.radius)
         }
-
     }
 }

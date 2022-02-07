@@ -3,6 +3,7 @@ package archives
 import org.openrndr.draw.ColorBuffer
 import org.openrndr.draw.loadImage
 import org.openrndr.draw.persistent
+import tools.statistics
 import java.io.File
 import java.io.FileNotFoundException
 import java.net.URL
@@ -21,7 +22,7 @@ class FileArticle(val title: String, val texts: List<String>, val imageUrls: Lis
 
     fun load(): LoadedArticle {
         val imageCache = File("cache/images")
-        val images = imageUrls.mapNotNull {
+        val images = imageUrls.sorted().mapNotNull {
             val hash = File(imageCache, hashImageUrl(it))
             if (hash.exists()) {
                 persistent { loadImage(hash) }
@@ -42,10 +43,17 @@ fun downloadFile(urlString: String, target: File) {
     }
 }
 
-class LoadedArticle(val title: String, val texts: List<String>, val images: List<ColorBuffer>) {
+class LoadedArticle(val title: String,
+                    val texts: List<String>,
+                    val images: List<ColorBuffer>) {
     fun destroy() {
         images.forEach { it.destroy() }
     }
+
+    val imageStatistics by lazy {
+        images.map { it.statistics() }
+    }
+
 }
 
 fun hashImageUrl(url: String): String {

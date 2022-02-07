@@ -9,7 +9,6 @@ import java.net.URL
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-//curl 'https://duckduckgo.com/i.js?l=wt-wt&o=json&q=amanda%20palmer&vqd=3-175854600097937131502949524563648687956-118825523468201311821809726630304904255&f=,,,&p=1' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' -H 'accept: application/json, text/javascript, */*; q=0.01' -H 'referer: https://duckduckgo.com/' -H 'authority: duckduckgo.com' -H 'x-requested-with: XMLHttpRequest' --compressed
 class Result(
     var image: String,
     var height: Int,
@@ -19,7 +18,6 @@ class Result(
     var url: String,
     var title: String
 ) {
-
     lateinit var imageSmall: ColorBuffer
 }
 
@@ -29,7 +27,6 @@ class SearchResults(
     var query: String,
     var next: String
 )
-
 
 private fun encodeValue(value: String): String {
     try {

@@ -12,7 +12,7 @@ fun localArchive(base:String) : Sequence<LoadedArticle> {
     return sequence {
         val imageExtensions = setOf("jpg", "png", "jpeg")
         while (true) {
-            val subs = baseDir.listFiles().filter { it.isDirectory && !it.isHidden }
+            val subs = baseDir.listFiles().filter { it.isDirectory && !it.isHidden }.sorted()
 
             for (sub in subs) {
                 val files = sub.listFiles().filter { it.isFile && !it.isHidden }

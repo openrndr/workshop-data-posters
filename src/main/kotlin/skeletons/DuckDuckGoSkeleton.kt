@@ -29,16 +29,11 @@ fun main() = application {
         height = 800
     }
     program {
-
-        // -- per country
         val archive = duckDuckGoSequence("Goofy Pluto").iterator()
-
-        // -- per query
-        //val archive = googleNewsSequence(GoogleNewsEndPoint.Everything, query = "coronavirus").iterator()
         var article = archive.next().load()
         val gui = GUI()
 
-        val onNextArticle = Event<LoadedArticle>()
+        val onNewArticle = Event<LoadedArticle>()
         val settings = @Description("Settings") object {
             @ActionParameter("Next article")
             fun nextArticle() {
@@ -50,7 +45,7 @@ fun main() = application {
                     val newArticle = next.await().load()
                     article.destroy()
                     article = newArticle
-                    onNextArticle.trigger(newArticle)
+                    onNewArticle.trigger(newArticle)
                 }
             }
         }
@@ -82,7 +77,7 @@ fun main() = application {
                 post(DropShadow()).addTo(gui, "2. Drop shadow")
             }
         }
-        onNextArticle.trigger(article)
+        onNewArticle.trigger(article)
 
 
         gui.add(settings)

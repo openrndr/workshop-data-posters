@@ -2,6 +2,7 @@ package tools
 
 import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.ColorBuffer
+import org.openrndr.extra.color.spaces.toOKHSVa
 import org.openrndr.math.Vector2
 
 class ImageStatistics(val histogram: ColorHistogram, val average: ColorRGBa,
@@ -105,7 +106,6 @@ class ColorHistogram(val freqs: Array<Array<DoubleArray>>, val binCount: Int) {
         for (r in 0 until binCount) {
             for (g in 0 until binCount) {
                 for (b in 0 until binCount) {
-
                     result.add(
                         Pair(
                             ColorRGBa(r / (binCount - 1.0), g / (binCount - 1.0), b / (binCount - 1.0)),
@@ -117,4 +117,8 @@ class ColorHistogram(val freqs: Array<Array<DoubleArray>>, val binCount: Int) {
         }
         return result.sortedByDescending { it.second }
     }
+    fun niceColors(minSaturation: Double = 0.5, minValue: Double = 0.5) : List<Pair<ColorRGBa, Double>> {
+        return colors().filter { val hsv = it.first.toOKHSVa(); hsv.s >= minSaturation && hsv.v >= minValue }
+    }
+
 }

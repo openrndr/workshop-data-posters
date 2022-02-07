@@ -105,8 +105,6 @@ dependencies {
     implementation("ru.sokomishalov.skraper:skrapers:0.8.2")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
 
-
-
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlin.logging)
 

@@ -40,7 +40,7 @@ fun main() = application {
             reddit.getCommunityNewPosts("r/pics")
         }
 
-        val onNextArticle = Event<LoadedArticle>()
+        val onNewArticle = Event<LoadedArticle>()
         val list = posts.take(10).toList()
 
         val archive = skraperSequence(list).iterator()
@@ -59,7 +59,7 @@ fun main() = application {
                     val newArticle = next.await().load()
                     article.destroy()
                     article = newArticle
-                    onNextArticle.trigger(newArticle)
+                    onNewArticle.trigger(newArticle)
                 }
             }
         }
@@ -91,7 +91,7 @@ fun main() = application {
             }
         }
 
-        onNextArticle.trigger(article)
+        onNewArticle.trigger(article)
 
         gui.add(settings)
         extend(gui)
