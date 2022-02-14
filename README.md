@@ -71,6 +71,12 @@ they contain valuable hints for building poster generators.
   * [Animation001](src/main/kotlin/examples/framework/Animation001.kt) - animating a circle whenever a new article is loaded
   * [Animation002](src/main/kotlin/examples/framework/Animation002.kt) - fading in images and text whenever a new article is loaded
   * [Animation003](src/main/kotlin/examples/framework/Animation003.kt) - animating post filter settings
+  * [ImageContext001](src/main/kotlin/examples/framework/ImageContext001.kt) - demonstration of image statistics
+  * [ImageTreatment001](src/main/kotlin/examples/framework/ImageTreatment001.kt) - demonstration of image treatments
+  * [ImageTreatment002](src/main/kotlin/examples/framework/ImageTreatment002.kt) - demonstration of image treatments
   * [Mask001](src/main/kotlin/examples/framework/Mask001.kt) - Masking an image layer with text
-  * [Mask002](src/main/kotlin/examples/framework/Mask002.kt) -  Masking an image layer with text, combining blurred and sharp images
+  * [Mask002](src/main/kotlin/examples/framework/Mask002.kt) - Masking an image layer with text, combining blurred and sharp images
+  * [Type001](src/main/kotlin/examples/framework/Type001.kt) - Demonstrating type placement
+  * [TypeTreatment001](src/main/kotlin/examples/framework/TypeTreatment001.kt) - demonstration of type treatments
 
+  

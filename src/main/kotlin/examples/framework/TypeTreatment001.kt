@@ -1,5 +1,6 @@
 package examples.framework
 
+import FilmGrain
 import archives.LoadedArticle
 import archives.localArchive
 import org.openrndr.animatable.Animatable
@@ -14,11 +15,15 @@ import org.openrndr.extra.color.spaces.toOKHSVa
 import org.openrndr.extra.compositor.*
 import org.openrndr.extra.fx.blend.Multiply
 import org.openrndr.extra.fx.blur.ApproximateGaussianBlur
+import org.openrndr.extra.fx.color.Duotone
 import org.openrndr.extra.fx.color.LumaOpacity
+import org.openrndr.extra.fx.distort.Lenses
+import org.openrndr.extra.fx.distort.StackRepeat
 import org.openrndr.extra.fx.patterns.Checkers
 import org.openrndr.extra.fx.shadow.DropShadow
 import org.openrndr.extra.gui.GUI
 import org.openrndr.extra.gui.addTo
+import org.openrndr.extra.noise.uniform
 import org.openrndr.extra.parameters.ActionParameter
 import org.openrndr.extra.parameters.Description
 import org.openrndr.extras.imageFit.imageFit
@@ -26,7 +31,7 @@ import org.openrndr.shape.Rectangle
 import org.openrndr.writer
 import tools.statistics
 
-// This demonstrates how to use color statistics
+// Type treatment demonstration. Learn from it, don't just copy ;)
 
 fun main() = application {
     configure {
@@ -49,43 +54,43 @@ fun main() = application {
         }
 
         val composite = compose {
-            var background = ColorRGBa.PINK
-            onNewArticle.listen {
-                background = rgb(Math.random(), Math.random(), Math.random())
-            }
-
             layer {
+                post(Checkers())
+            }
+            // "shadow" text layer
+            layer {
+                val font = loadFont("data/fonts/IBMPlexMono-Bold.ttf", 50.0)
                 draw {
-                    if (article.images.isNotEmpty()) {
-                        val stats = article.imageStatistics[0]
-                        drawer.fill = stats.average
-                        drawer.stroke = null
-                        drawer.rectangle(0.0, 0.0, width * 1.0, height * 1.0)
-
+                    drawer.fontMap = font
+                    drawer.fill = ColorRGBa.RED
+                    writer {
+                        box = drawer.bounds.offsetEdges(-20.0)
+                        newLine()
+                        leading = -10.0
+                        tracking = -5.0
+                        text(article.texts[0])
                     }
                 }
-            }
+                post(Lenses()).addTo(gui)
+                blend(Multiply())
+            }.addTo(gui, "shadow text")
+
+            // foreground text layer
             layer {
+                val font = loadFont("data/fonts/IBMPlexMono-Bold.ttf", 50.0)
+
                 draw {
-                    drawer.imageFit(article.images[0], 20.0, 20.0, width - 40.0, height - 40.0)
-                }
-                post(LumaOpacity()).addTo(gui)
-            }
-            // -- text layer
-            layer {
-                val font = loadFont("data/fonts/IBMPlexMono-Bold.ttf", 64.0)
-                draw {
-                    if (article.texts.isNotEmpty()) {
-                        val stats = article.imageStatistics[0]
-                        drawer.fill = stats.histogram.colors()[0].first
-                        drawer.fontMap = font
-                        writer {
-                            box = Rectangle(40.0, 40.0, width - 80.0, height - 80.0)
-                            gaplessNewLine()
-                            text(article.texts[0])
-                        }
+                    drawer.fontMap = font
+                    drawer.fill = ColorRGBa.WHITE
+                    writer {
+                        box = drawer.bounds.offsetEdges(-20.0)
+                        newLine()
+                        leading = -10.0
+                        tracking = -5.0
+                        text(article.texts[0])
                     }
                 }
+
             }
         }
         onNewArticle.trigger(article)

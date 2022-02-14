@@ -1,5 +1,6 @@
 package examples.framework
 
+import FilmGrain
 import archives.LoadedArticle
 import archives.localArchive
 import org.openrndr.animatable.Animatable
@@ -14,11 +15,14 @@ import org.openrndr.extra.color.spaces.toOKHSVa
 import org.openrndr.extra.compositor.*
 import org.openrndr.extra.fx.blend.Multiply
 import org.openrndr.extra.fx.blur.ApproximateGaussianBlur
+import org.openrndr.extra.fx.color.Duotone
 import org.openrndr.extra.fx.color.LumaOpacity
+import org.openrndr.extra.fx.distort.StackRepeat
 import org.openrndr.extra.fx.patterns.Checkers
 import org.openrndr.extra.fx.shadow.DropShadow
 import org.openrndr.extra.gui.GUI
 import org.openrndr.extra.gui.addTo
+import org.openrndr.extra.noise.uniform
 import org.openrndr.extra.parameters.ActionParameter
 import org.openrndr.extra.parameters.Description
 import org.openrndr.extras.imageFit.imageFit
@@ -26,7 +30,7 @@ import org.openrndr.shape.Rectangle
 import org.openrndr.writer
 import tools.statistics
 
-// This demonstrates how to use color statistics
+// Image treatment demonstration. Learn from it, don't just copy ;)
 
 fun main() = application {
     configure {
@@ -48,44 +52,40 @@ fun main() = application {
             }
         }
 
+        // all our image treatment happens inside a compose block
         val composite = compose {
-            var background = ColorRGBa.PINK
-            onNewArticle.listen {
-                background = rgb(Math.random(), Math.random(), Math.random())
-            }
+            layer {
 
-            layer {
-                draw {
-                    if (article.images.isNotEmpty()) {
-                        val stats = article.imageStatistics[0]
-                        drawer.fill = stats.average
-                        drawer.stroke = null
-                        drawer.rectangle(0.0, 0.0, width * 1.0, height * 1.0)
+                // here we create variables that we will use to randomize the settings of StackRepeat
+                var xo = 0.0
+                var yo = 0.0
 
-                    }
+                // listen for a new article event and randomize
+                onNewArticle.listen {
+                    xo = Double.uniform(-0.25, 0.25)
+                    yo = Double.uniform(-0.25, 0.25)
                 }
-            }
-            layer {
+
                 draw {
-                    drawer.imageFit(article.images[0], 20.0, 20.0, width - 40.0, height - 40.0)
+                    // draw the article image full page but have 10 px margins
+                    drawer.imageFit(article.images[0], drawer.bounds.offsetEdges(-10.0))
                 }
-                post(LumaOpacity()).addTo(gui)
-            }
-            // -- text layer
-            layer {
-                val font = loadFont("data/fonts/IBMPlexMono-Bold.ttf", 64.0)
-                draw {
-                    if (article.texts.isNotEmpty()) {
-                        val stats = article.imageStatistics[0]
-                        drawer.fill = stats.histogram.colors()[0].first
-                        drawer.fontMap = font
-                        writer {
-                            box = Rectangle(40.0, 40.0, width - 80.0, height - 80.0)
-                            gaplessNewLine()
-                            text(article.texts[0])
-                        }
-                    }
+                // add a drop shadow effect first
+                post(DropShadow())
+                post(StackRepeat()) {
+                    // we can learn which settings StackRepeat has by moving the cursor over StackRepeat and
+                    // pressing command-b on macOS or ctrl-b on Windows/Linux
+                    this.xOffset = xo
+                    this.yOffset = yo
+                }.addTo(gui)
+
+                // Add a duotone effect, use the default colors
+                post(Duotone()) {
+                    // this.backgroundColor = ColorRGBa.BLACK
+                    // this.foregroundColor = ColorRGBa.WHITE
                 }
+                post(FilmGrain())
+
             }
         }
         onNewArticle.trigger(article)

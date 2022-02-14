@@ -75,7 +75,7 @@ val ormlFeatures = setOf<String>(
 
 /** ## additional OPENRNDR features to be added to this project */
 val openrndrFeatures = setOf(
-    "video"
+    if (DefaultNativePlatform("current").architecture.name != "arm-v8") "video" else null
 )
 
 /** ## configure the type of logging this project uses */
@@ -219,7 +219,10 @@ class Openrndr {
         }
     } else when (OperatingSystem.current()) {
         OperatingSystem.WINDOWS -> "windows"
-        OperatingSystem.MAC_OS -> "macos"
+        OperatingSystem.MAC_OS -> when (val h = DefaultNativePlatform("current").architecture.name) {
+            "arm-v8" -> "macos-arm64"
+            else -> "macos"
+        }
         OperatingSystem.LINUX -> when (val h = DefaultNativePlatform("current").architecture.name) {
             "x86-64" -> "linux-x64"
             "aarch64" -> "linux-arm64"

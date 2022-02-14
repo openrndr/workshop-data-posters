@@ -9,8 +9,8 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             version("kotlin", "1.6.0")
-            version("openrndr", if (openrndrUseSnapshot) "0.5.1-SNAPSHOT" else "0.4.0-rc.5")
-            version("orx", if (orxUseSnapshot) "0.5.1-SNeAPSHOT" else "0.4.0-rc.5")
+            version("openrndr", if (openrndrUseSnapshot) "0.5.1-SNAPSHOT" else "0.4.0-rc.6")
+            version("orx", if (orxUseSnapshot) "0.5.1-SNeAPSHOT" else "0.4.0-rc.7")
             version("orml", if (ormlUseSnapshot) "0.5.1-SNAPSHOT" else "0.4.0")
 
             alias("kotlin-jvm").toPluginId("org.jetbrains.kotlin.jvm").version("1.6.0")
